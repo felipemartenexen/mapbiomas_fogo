@@ -1,0 +1,23 @@
+scp -P 15412 -r C:\scripts\* luiz_felipe@186.193.7.172:/home/luiz_felipe/scripts/
+
+--server to local
+scp -P 15412 -r luiz_felipe@186.193.7.172:/home/luiz_felipe/dados/queimada_amazonia_v5_1_region4_2024_7.tif* C:\dados/
+
+-- download mosaic
+https://code.earthengine.google.com/f5ef083322e10be4b4bc68ccded1ed71
+
+earthengine authenticate --auth_mode=notebook --force
+
+import ee
+
+from ee_plugin import Map
+
+mosaic = ee.Image("users/newtonmonteiro/mosaic_raster_amazonia_2024_07")
+
+imageVisParam = {"opacity":1,"bands":["swir1","nir","red"],"min":209.16015625,"max":5189.43359375,"gamma":1}
+
+v1 = ee.Image(1).mask('users/geomapeamentoipam/COLECAO_FOGO_SENTINEL/CLASSIFICACAO/AMAZONIA/queimada_amazonia_v9_12_region1_2024_7')
+
+Map.addLayer(v1, {'palette': 'red'},'v1')
+
+Map.addLayer(mosaic, imageVisParam,'mosaic')
