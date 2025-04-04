@@ -3,8 +3,8 @@
 
 
 # Define the list of regions
-regions = [7,8,9]
-version = '9_13'
+regions = [1,2,3,4,5,6,7,8,9]
+version = '9_12'
 biome = 'amazonia'  # ['pantanal', 'pampa', 'caatinga', 'cerrado', 'mata_atlantica']
 folder = '../dados'  # Main folder where the data is located
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_monitor'

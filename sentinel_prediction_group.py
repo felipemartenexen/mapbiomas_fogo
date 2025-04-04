@@ -4,15 +4,15 @@
 
 # -- BASIC PARAMETERS --
 # ------------------------------------------------
-regions = [7,8,9]
-version = '9_13'
+regions = [1,2,3,4,5,6,7,8,9]
+version = '9_12'
 biome = 'amazonia'
 resolution = '30'  # '10' or '30'
 folder = '../dados'
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_monitor'
 folder_mosaic = f'../../../mnt/Files-Geo/Arquivos/mosaics_monitor_sentinel_{resolution}m/vrt/{biome}'
 years = [2025]  # You can add more years here
-meses = [2]  # You can add more months here
+meses = [3]  # You can add more months here
 sulfix = ''
 
 # Set the GPU memory growth to limit memory usage
