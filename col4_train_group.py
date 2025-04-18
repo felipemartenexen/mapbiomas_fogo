@@ -2,9 +2,9 @@
 # coding: utf-8
 
 # -- PARÂMETROS BÁSICOS --
-version = 4
+version = 1
 biome = 'amazonia'  # ['pantanal', 'pampa', 'caatinga', 'cerrado', 'mata_atlantica']
-regions = [6,7,8,9]  # Lista de regiões
+regions = [4,3,2,1]  # Lista de regiões
 folder = '../../dados'  # Pasta principal onde ficam os dados
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_col3'
 
@@ -35,9 +35,9 @@ def fully_connected_layer(input, n_neurons, activation=None):
 # Loop principal para treinar o modelo em múltiplas regiões
 for region in regions:
     print(colored(f'Processando região {region}', 'yellow'))
-    folder_amostras = f'../../../mnt/Files-Geo/Arquivos/amostras_col4/{biome}_r5'
+    folder_amostras = f'../../../mnt/Files-Geo/Arquivos/amostras_col4/{biome}_r6'
     images_train_test = [
-        f'train_test_fire_nbr_{biome}_r5_l89_v1_*.tif'
+        f'train_test_fire_nbr_{biome}_r6_l89_v1_*.tif'
     ]
 
     # Coleta de dados de treino e teste

@@ -10,7 +10,7 @@
 folder = '../dados'# pasta principal onde fica os dados
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_col3'
 folder_mosaic = f'../../../mnt/Files-Geo/Arquivos/col3_mosaics_landsat_30m/vrt/{biome}'
-sulfix = ''
+sulfix = '__'
 
 satellite_years = [
     #{'satellite': 'l5', 'years':  [1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998]}
@@ -66,7 +66,7 @@ def filter_spacial(output_image_data):
 
     # Remove small white regions
     open_image = ndimage.binary_opening(
-        binary_image, structure=np.ones((2, 2)))
+        binary_image, structure=np.ones((4, 4)))
     # Remove small black hole
     close_image = ndimage.binary_closing(open_image, structure=np.ones((8, 8)))
     return close_image

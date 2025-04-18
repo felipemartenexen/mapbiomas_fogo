@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-version = 10
+version = 1
 biome = 'amazonia' #['pantanal', 'pampa',  'caatinga', 'cerrado', 'mata_atlantica'] 
-region = '9'
+region = '5'
 folder = '../../dados'# pasta principal onde fica os dados
-folder_amostras = f'../../../mnt/Files-Geo/Arquivos/amostras_col4/{biome}_r8'
+folder_amostras = f'../../../mnt/Files-Geo/Arquivos/amostras_col4/{biome}_r6'
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_col3'
 images_train_test = [
-    f'train_test_fire_nbr_amazonia_r8_l89_v4_*.tif'
+    f'train_test_fire_nbr_amazonia_r6_l89_v1_*.tif'
     #f'train_test_fire_nbr_{biome}_r{region}_l5_v{version}_*.tif',
     #f'train_test_fire_nbr_{biome}_r{region}_l57_v{version}_*.tif',
     #f'train_test_fire_nbr_{biome}_r{region}_l78_v{version}_*.tif',

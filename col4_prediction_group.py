@@ -4,13 +4,13 @@
 #ee.Authenticate()
 # -- PARÂMETROS BÁSICOS --
 # ------------------------------------------------
-version = 4
+version = 1
 biome = 'amazonia' #["pantanal", "pampa",  "caatinga", "cerrado", "mata_atlantica","amazonia"] 
-regions = [6,7,8,9]
+regions = [4, 3, 2, 1]
 folder = '../dados'# pasta principal onde fica os dados
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_col3'
 folder_mosaic = f'../../../mnt/Files-Geo/Arquivos/col3_mosaics_landsat_30m/vrt/{biome}'
-sulfix = ''
+sulfix = '__'
 ee.Initialize(project='workspace-ipam')
 
 satellite_years = [

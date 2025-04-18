@@ -3,8 +3,8 @@ import os
 import glob
 
 # Carregar imagens e rótulos
-version = 4
-regions = ['8'] #'1', '2', '3', '4', '5'
+version = 1
+regions = ['6'] #'1', '2', '3', '4', '5'
 biomes = ["amazonia"]
 satellites = ["l89"]  # 'l8' 'l9' 'l78' 'l89' 'l57' 'l5'
 base_folder = '../../../../mnt/Files-Geo/Arquivos/amostras_col4/'

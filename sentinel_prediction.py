@@ -13,7 +13,7 @@ folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_monitor'
 folder_mosaic = f'../../../mnt/Files-Geo/Arquivos/mosaics_monitor_sentinel_{resolution}m/vrt/{biome}'
 years = [2025] #2019,2020,2021,2022
 meses = [3] #1,2,3,4,5,6,7,8,9,10,11,12
-sulfix = ''
+sulfix = '_'
 ee.Initialize(project='workspace-ipam')
 # Set the GPU memory growth to limit memory usage
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
@@ -60,7 +60,7 @@ def filter_spacial(output_image_data):
 
     # Remove small white regions
     open_image = ndimage.binary_opening(
-        binary_image, structure=np.ones((3, 3)))
+        binary_image, structure=np.ones((4, 4)))
     # Remove small black hole
     close_image = ndimage.binary_closing(open_image, structure=np.ones((8, 8)))
     return close_image
@@ -193,7 +193,7 @@ for year in years:
         if len(input_scenes) > 0:
             input_scenes = " ".join(input_scenes)
 
-            image_name = f"queimada_{biome}_v{version}_region{region}_{year}_{mes}"
+            image_name = f"queimada_{biome}_v{version}_region{region}_{year}_{mes}_{sulfix}"
             output_image = f"{folder}/{image_name}.tif"
 
 
