@@ -6,7 +6,7 @@
 // =======================================================
 
 // 1. Lista de regiões (client‑side)
-var nRegions = [2,3,4,5,6,7,8,9];
+var nRegions = [2,3];
 
 // 2. Lista de anos (client‑side)
 var years = [];
@@ -37,114 +37,86 @@ nRegions.forEach(function(nRegion) {
 
   // 5.2 loop por cada ano
   years.forEach(function(year) {
+    
     var yearStr = year.toString();
     var prevStr = (year - 1).toString();
 
     // 5.2.1 bandas queimadas ano e ano-1
     var fireYear = fireAll.select('burned_area_' + yearStr).clip(region);
-    var firePrev = fireAll.select('burned_area_' + prevStr).clip(region);
+    var firePrevius = fireAll.select('burned_area_' + prevStr).clip(region);
 
     // 5.2.2 hotspots (assets externos)
-    var hs     = ee.Image(
-      "projects/ee-felipe-martenexen/assets/fire_col4/fireAgain/hotspot_" 
-      + yearStr
-    ).eq(0);
-    var hsPrev = ee.Image(
-      "projects/ee-felipe-martenexen/assets/fire_col4/fireAgain/hotspot_" 
-      + prevStr
-    ).eq(0);
+    var annualHotSpotsImg = ee.Image("projects/ee-felipe-martenexen/assets/fire_col4/fireAgain/hotspot_" + yearStr).eq(0);
+    //
+    var annualHotSpotsPreviusImg = ee.Image("projects/ee-felipe-martenexen/assets/fire_col4/fireAgain/hotspot_" + prevStr).eq(0);
 
     // 5.2.3 máscara de floresta (MapBiomas Col9, classe 3)
     var forest = ee.Image(1).mask(
-      colecao.select('classification_' + (year-2).toString()).eq(3)
-    ).clip(region);
+      colecao.select('classification_' + (yearStr-2).toString()).eq(3)
+    );
 
     // 5.2.4 identifique repetições (fireAgain)
-    var fireAgain = fireYear.updateMask(firePrev);
+    var fireAgain = fireYear.updateMask(firePrevius);
 
-    // 5.2.5 componentes conectados e filtro por área ≥50 000 m²
-    var fireAgainId = fireAgain.connectedComponents({
+    annualHotSpotsImg = annualHotSpotsImg.updateMask(fireAgain);
+    
+     // Defina o raio em metros (500 metros)
+    var radius = 1000;
+    
+    // Defina o tipo de kernel ("circle" para uma janela circular)
+    var kernelType = 'square';
+    
+    // Defina a unidade como metros
+    var units = 'meters';
+    
+    // O número de iterações (você pode definir mais se quiser suavizar mais a imagem)
+    var iterations = 1;
+    
+    // Aplique o foco da moda (focal_mode)
+    var fireAgainFocalMode = annualHotSpotsImg.focalMode(radius, kernelType, units, iterations);
+    
+    //fireAgainSize = fireAgainSize.updateMask(fireAgainFocalMode.unmask().not());
+    
+    var fireNoAgain = fireAgain.updateMask(fireAgainFocalMode.unmask().not());
+    
+    fireNoAgain = fireNoAgain.updateMask(forest);
+    
+    var fireAgainId = fireNoAgain.connectedComponents({
       connectedness: ee.Kernel.square(1),
       maxSize: 128
     });
+    
+    // Compute the number of pixels in each object defined by the "labels" band.
+    var objectSize = fireAgainId.select('labels')
+      .connectedPixelCount({
+        maxSize: 128, eightConnected: true
+      });
+      
     var pixelArea = ee.Image.pixelArea();
-    var objectArea = fireAgainId.multiply(pixelArea);
-    var areaMask = objectArea.gte(100000);
-    fireAgainId = fireAgainId.updateMask(areaMask);
+    
+    var objectArea = objectSize.multiply(pixelArea);
+    
+    var areaMask = objectArea.lt(50000);
+    
+    var fireAgainIdLt = fireAgainId.updateMask(areaMask).select('labels');
+    
+    var fireNoAgainSize = fireNoAgain.updateMask(fireAgainIdLt.unmask().not());
+    
+    var newCol4 = fireYear.updateMask(fireNoAgainSize.unmask().not());
 
-    // 5.2.6 aplique hotspots sobre as áreas repetidas
-    hs = hs.updateMask(fireAgain);
-
-    // 5.2.7 calcule fireAgainSize (exclui objetos grandes e hotspots)
-    var fireAgainSize = fireAgain
-      .updateMask(fireAgainId.select('labels').unmask().not());
-
-    // 5.2.8 suavização por modo focal (800 m)
-    fireAgainSize = fireAgainSize.updateMask(
-      hs.focalMode(800, 'square', 'meters', 1).unmask().not()
-    );
-
-    // 5.2.9 fireNoAgain (áreas repetidas sem hotspots, dentro de floresta)
-    var fireNoAgain = fireAgain
-      .updateMask(fireAgainSize.unmask().not())
-      .updateMask(forest);
-
-    // 5.2.10 newCol4 = queimadas deste ano excluindo fireAgainSize
-    var newCol4 = fireYear.updateMask(fireNoAgain.unmask().not());
-
+    newCol4 = ee.Image(1).mask(newCol4);
+    
+    newCol4 = newCol4.rename('b1').unmask().float();
+    
     Export.image.toAsset({
       image: newCol4,
-      description: 'col4_r' + nRegion + '_v4_' +  year,
-      assetId: 'projects/ee-felipe-martenexen/assets/fire_col4/fireAgain/image/' + 'col4_r' + nRegion + '_v4_' +  year,
+      description: 'col4_r' + nRegion + '_v5_' +  year,
+      assetId: 'projects/ee-felipemartenexen/assets/fire_col4/fireAgain/image/' + 'col4_r' + nRegion + '_v5_' +  year,
       region: region.geometry().bounds(),
       scale: 30,
       maxPixels: 1e13 
-      })
-    // 5.2.11 calcule áreas em km²
-   //var statsFire = fireYear
-   //  .gt(0)
-   //  .multiply(pixelArea)
-   //  .reduceRegion({
-   //    reducer:   ee.Reducer.sum(),
-   //    geometry:  region,
-   //    scale:     30,
-   //    maxPixels: 1e13
-   //  });
-   //var areaFireYear = ee.Number(
-   //  statsFire.get('burned_area_' + yearStr)
-   //).divide(1e6);
+    });
 
-   //var statsNew = newCol4
-   //  .gt(0)
-   //  .multiply(pixelArea)
-   //  .reduceRegion({
-   //    reducer:   ee.Reducer.sum(),
-   //    geometry:  region,
-   //    scale:     30,
-   //    maxPixels: 1e13
-   //  });
-   //var areaNewCol4 = ee.Number(
-   //  statsNew.get('burned_area_' + yearStr)
-   //).divide(1e6);
-
-    // 5.2.12 empilhe a Feature
-    //features.push(ee.Feature(null, {
-    //  'nRegion':            nRegion,
-    //  'year':               year,
-    //  'area_fireYear_km2':  areaFireYear,
-    //  'area_newCol4_kja':   areaNewCol4
-    //}));
   });
 });
 
-// 6. Monte a FeatureCollection final e imprima
-//var table = ee.FeatureCollection(features);
-//print(table);
-//
-//// 7. Exporte tudo para o Google Drive em CSV
-//Export.table.toDrive({
-//  folder:      'EXPORT-GEE',
-//  collection:  table,
-//  description: 'areas_newCol4_fireYear_regions_2000_2023',
-//  fileFormat:  'CSV'
-//});
