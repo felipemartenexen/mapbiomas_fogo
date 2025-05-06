@@ -1,4 +1,4 @@
-scp -P 15412 -r C:\Users\luiz.felipe\Desktop\FLP\MapiaEng\GitHub\mapbiomas_fogo\* luiz_felipe@186.193.7.172:/home/luiz_felipe/scripts/
+scp -P 15412 -r C:\Users\luiz.felipe\Desktop\FLP\MapiaEng\GitHub\mapbiomas_fogo\* luiz_felipe@acessord.ipam.inf.br:/home/luiz_felipe/scripts/
 
 --server to local
 scp -P 15412 -r luiz_felipe@186.193.7.172:/home/luiz_felipe/dados/queimada_amazonia_v5_1_region4_2024_7.tif* C:\dados/

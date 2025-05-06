@@ -12,7 +12,7 @@ folder = '../dados'
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_monitor'
 folder_mosaic = f'../../../mnt/Files-Geo/Arquivos/mosaics_monitor_sentinel_{resolution}m/vrt/{biome}'
 years = [2025] #2019,2020,2021,2022
-meses = [3] #1,2,3,4,5,6,7,8,9,10,11,12
+meses = [4] #1,2,3,4,5,6,7,8,9,10,11,12
 sulfix = '_'
 ee.Initialize(project='workspace-ipam')
 # Set the GPU memory growth to limit memory usage

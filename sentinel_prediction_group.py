@@ -12,7 +12,7 @@ folder = '../dados'
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_monitor'
 folder_mosaic = f'../../../mnt/Files-Geo/Arquivos/mosaics_monitor_sentinel_{resolution}m/vrt/{biome}'
 years = [2025]  # You can add more years here
-meses = [3]  # You can add more months here
+meses = [4]  # You can add more months here
 sulfix = ''
 
 # Set the GPU memory growth to limit memory usage
