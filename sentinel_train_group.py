@@ -4,7 +4,7 @@
 
 # Define the list of regions
 regions = [1,2,3,4,5,6,7,8,9]
-version = '9_12'
+version = '8_2'
 biome = 'amazonia'  # ['pantanal', 'pampa', 'caatinga', 'cerrado', 'mata_atlantica']
 folder = '../dados'  # Main folder where the data is located
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_monitor'
@@ -19,7 +19,7 @@ def convert_to_array(dataset):
 
 for region in regions:
     region = str(region)
-    sub_region = '1'  # Assuming sub_region is the same as region
+    sub_region = '6'  # Assuming sub_region is the same as region
     folder_amostras = f'../../../mnt/Files-Geo/Arquivos/amostras_monitor/{biome}_r{sub_region}'
     images_train_test = [
         f'train_test_fire_nbr_{biome}_r{sub_region}_sentinel_v{version}_*.tif'

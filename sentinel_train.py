@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-version = '5_7'
+version = '9_13'
 biome = 'amazonia' #['pantanal', 'pampa', 'caatinga', 'cerrado', 'mata_atlantica']
-region = '2'
-sub_region = '2'
+region = '3'
+sub_region = '1'
 folder = '../dados' # pasta principal onde fica os dados
 folder_amostras = f'../../../mnt/Files-Geo/Arquivos/amostras_monitor/{biome}_r{sub_region}'
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_monitor'

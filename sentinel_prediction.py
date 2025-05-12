@@ -4,16 +4,16 @@
 #ee.Authenticate()
 # -- PARÂMETROS BÁSICOS --
 # ------------------------------------------------
-version = '5_7'
+version = '9_13'
 biome = 'amazonia'
-region = '2'
+region = '3'
 resolution = '30' # '10' '30'
 folder = '../dados'
 folder_modelo = '../../../mnt/Files-Geo/Arquivos/modelos_monitor'
 folder_mosaic = f'../../../mnt/Files-Geo/Arquivos/mosaics_monitor_sentinel_{resolution}m/vrt/{biome}'
 years = [2025] #2019,2020,2021,2022
 meses = [4] #1,2,3,4,5,6,7,8,9,10,11,12
-sulfix = '_'
+sulfix = ''
 ee.Initialize(project='workspace-ipam')
 # Set the GPU memory growth to limit memory usage
 physical_devices = tf.config.experimental.list_physical_devices('GPU')

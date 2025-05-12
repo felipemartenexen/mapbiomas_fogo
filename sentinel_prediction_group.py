@@ -5,7 +5,7 @@
 # -- BASIC PARAMETERS --
 # ------------------------------------------------
 regions = [1,2,3,4,5,6,7,8,9]
-version = '9_12'
+version = '8_2'
 biome = 'amazonia'
 resolution = '30'  # '10' or '30'
 folder = '../dados'
